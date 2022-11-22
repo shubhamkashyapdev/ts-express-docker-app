@@ -1,3 +1,5 @@
+# Video URL: [https://youtu.be/9zUHg7xjIqQ]
+
 # Run a process with bind mount (volumes) - auto sync
 
 `docker run --name <process-name-any> -p 5000:5000 -v C:/WebDevelopment/MyProjects/Docker/docker_express_app:/app -v /app/node_modules -d <contianer-name>`
@@ -26,3 +28,32 @@
   `mongodb://username:password@container-ipv4:27017?authSource=admin`
 - MongoDB connection URI - Container Name
   `mongodb://username:password@container-name:specified-port?authSource=admin`
+
+# Run the application in development environment
+
+`docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d`
+
+# Run the application in production environment
+
+`docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d`
+
+# If installed a new npm package, to rebuild the node_modules volume use the following command
+
+`docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build -V`
+
+# Run multiple instance of application using nginx as the load balancer
+
+`docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --scale node-cc=2`
+
+- node-cc is the container name i had set in the docker-compose.yml file
+- node-cc=2 - _2_ is the number of instances that will run, _2_ will start one more instance
+
+# Test if the load balancer is working properly
+
+- docker ps (sell all running containers)
+- docker logs node-cc-1 -f
+- docker logs node-cc-2 -f
+
+Nginx will round robin the request to these containers
+
+_By default the application is listening on port: 5000_

@@ -1,4 +1,5 @@
 const express = require("express")
+const cors = require("cors")
 const mongoose = require("mongoose")
 const mongoCred = require("./config/config")
 const app = express()
@@ -17,15 +18,19 @@ mongoose
   .catch((err) => {
     console.log(`MongoDB Connection Failed: ${err.message}`)
   })
+// trust the nginx proxy headers
+app.enable("trust proxy")
+app.use(cors())
 
 const PORT = process.env.PORT || 5050
 const ENVIRONMENT = process.env.NODE_ENV
 app.use(express.json())
-app.get("/", (req, res, next) => {
+app.get("/api/v1", (req, res, next) => {
   res.send(`<h1>API is Working!</h1>`)
+  console.log("------- It Ran!! -------")
 })
-app.use("/post", PostRouter)
-app.use("/user", UserRouter)
+app.use("/api/v1/post", PostRouter)
+app.use("/api/v1/user", UserRouter)
 
 app.listen(PORT, () => {
   console.log(

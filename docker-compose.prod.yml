@@ -1,5 +1,8 @@
 version: "3.8"
 services:
+  nginx:
+    ports:
+      - "80:80"
   node-cc:
     build:
       context: .
