@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  node-cc:
+    build:
+      context: .
+      args: 
+        NODE_ENV: development
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    env_file:
+      - ./.env.development
+    command: yarn dev
+  database:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=skdev
+      - MONGO_INITDB_ROOT_PASSWORD=skdev
+      

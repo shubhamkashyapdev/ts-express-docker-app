@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  node-cc:
+    build: .
+    image: dev1800/node-cc
+    ports:
+      - '5000:5000'
+    env_file:
+      - ./.env
+    depends_on:
+      - database
+  database:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=skdev
+      - MONGO_INITDB_ROOT_PASSWORD=skdev
+    volumes:
+      - mongo-db:/data/db
+
+volumes:
+  mongo-db:
