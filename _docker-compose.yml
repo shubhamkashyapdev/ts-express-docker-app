@@ -2,7 +2,7 @@ version: "3.8"
 services:
   api:
     build: .
-    image: dev1800/node-cc
+    image: dev1800/node-app
     ports:
       - '5000:5000'
     env_file:

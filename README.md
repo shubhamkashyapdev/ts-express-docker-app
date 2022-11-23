@@ -1,5 +1,7 @@
 # Video URL: [https://youtu.be/9zUHg7xjIqQ]
 
+4:00:00 - Deployment to production
+
 # Run a process with bind mount (volumes) - auto sync
 
 `docker run --name <process-name-any> -p 5000:5000 -v C:/WebDevelopment/MyProjects/Docker/docker_express_app:/app -v /app/node_modules -d <contianer-name>`
@@ -43,16 +45,16 @@
 
 # Run multiple instance of application using nginx as the load balancer
 
-`docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --scale node-cc=2`
+`docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --scale node-app=2`
 
-- node-cc is the container name i had set in the docker-compose.yml file
-- node-cc=2 - _2_ is the number of instances that will run, _2_ will start one more instance
+- node-app is the container name i had set in the docker-compose.yml file
+- node-app=2 - _2_ is the number of instances that will run, _2_ will start one more instance
 
 # Test if the load balancer is working properly
 
 - docker ps (sell all running containers)
-- docker logs node-cc-1 -f
-- docker logs node-cc-2 -f
+- docker logs node-app-1 -f
+- docker logs node-app-2 -f
 
 Nginx will round robin the request to these containers
 

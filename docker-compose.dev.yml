@@ -3,7 +3,7 @@ services:
   nginx:
     ports:
       - "5000:80"
-  node-cc:
+  node-app:
     build:
       context: .
       args: 

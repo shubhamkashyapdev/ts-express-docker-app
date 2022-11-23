@@ -2,6 +2,7 @@ const express = require("express")
 const cors = require("cors")
 const mongoose = require("mongoose")
 const mongoCred = require("./config/config")
+const morgan = require("morgan")
 const app = express()
 const PostRouter = require("./routes/PostRouter")
 const UserRouter = require("./routes/UserRouter")
@@ -21,6 +22,9 @@ mongoose
 // trust the nginx proxy headers
 app.enable("trust proxy")
 app.use(cors())
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"))
+}
 
 const PORT = process.env.PORT || 5050
 const ENVIRONMENT = process.env.NODE_ENV

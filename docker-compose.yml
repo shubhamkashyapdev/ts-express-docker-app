@@ -2,16 +2,18 @@ version: "3.8"
 services:
   nginx:
     image: nginx:stable-alpine
+    container_name: nginx-c
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-  node-cc:
+  node-app:
     build: .
-    image: dev1800/node-cc
+    image: dev1800/node-app
     env_file:
       - ./.env
     depends_on:
       - database
   database:
+    container_name: database-c
     image: mongo
     environment:
       - MONGO_INITDB_ROOT_USERNAME=skdev
