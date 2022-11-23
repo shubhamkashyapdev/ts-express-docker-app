@@ -1,6 +1,5 @@
 const UserModel = require("../models/User")
 const bcrypt = require("bcryptjs")
-const jwt = require("jsonwebtoken")
 exports.getAllUsers = async (req, res, next) => {
   const users = await UserModel.find({}).select("-password")
   res.status(200).json({
@@ -91,6 +90,7 @@ exports.deleteUser = async (req, res) => {
 }
 
 exports.login = async (req, res) => {
+  const session = req.session
   const { email, password } = req.body
   if (!email || !password) {
     res.status(400).json({
@@ -101,8 +101,8 @@ exports.login = async (req, res) => {
   try {
     const user = await UserModel.findOne({ email: email })
     if (!user) {
-      res.status(404).json({
-        type: "success",
+      return res.status(404).json({
+        type: "error",
         message: `User Not Found`,
       })
     }
@@ -114,15 +114,9 @@ exports.login = async (req, res) => {
         message: `Invalid Password`,
       })
     }
-    // generate a token
-    const payload = {
-      id: user.id,
-      email: user.email,
-    }
-    const token = jwt.sign(payload, "jwt")
+    session.user = user
     res.status(200).json({
       type: "success",
-      data: token,
     })
   } catch (err) {
     res.status(500).json({

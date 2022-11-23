@@ -8,6 +8,7 @@ const UserSchema = mongoose.Schema({
   email: {
     type: String,
     required: [true, "Email is required"],
+    unique: true,
   },
   password: {
     type: String,
@@ -15,5 +16,5 @@ const UserSchema = mongoose.Schema({
   },
 })
 
-const Post = mongoose.model("users", UserSchema)
+const Post = mongoose.model("User", UserSchema)
 module.exports = Post

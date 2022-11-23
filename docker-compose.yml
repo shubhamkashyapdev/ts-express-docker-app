@@ -12,6 +12,7 @@ services:
       - ./.env
     depends_on:
       - database
+      - redis
   database:
     container_name: database-c
     image: mongo
@@ -20,6 +21,8 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=skdev
     volumes:
       - mongo-db:/data/db
+  redis:
+    image: redis
 
 volumes:
   mongo-db:
