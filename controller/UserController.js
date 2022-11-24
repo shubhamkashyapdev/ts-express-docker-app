@@ -35,6 +35,7 @@ exports.createUser = async (req, res, next) => {
   const userData = await hashPassword(data)
   try {
     const user = await UserModel.create(userData)
+    req.session.user = user
     res.status(200).json({
       type: "success",
       data: user,

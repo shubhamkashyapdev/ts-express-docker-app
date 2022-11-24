@@ -6,13 +6,14 @@ const {
   updatePost,
   deletePost,
 } = require("../controller/PostController")
+const protect = require("../middlewares/authMiddleware")
 
 const router = express.Router()
 
 router.get("/", getAllPosts)
 router.get("/:id", getPost)
-router.post("/", createPost)
-router.patch("/:id", updatePost)
-router.delete("/:id", deletePost)
+router.post("/", protect, createPost)
+router.patch("/:id", protect, updatePost)
+router.delete("/:id", protect, deletePost)
 
 module.exports = router
