@@ -59,3 +59,23 @@
 Nginx will round robin the request to these containers
 
 _By default the application is listening on port: 5000_
+
+# Install docker on production
+
+_[https://get.docker.com/]_
+
+- `curl -fsSL https://get.docker.com -o get-docker.sh`
+- `sh get-docker.sh`
+
+- Docker Compose Install: [https://www.digitalocean.com/community/tutorials/how-to-install-docker-compose-on-ubuntu-18-04]
+
+# Env
+
+_Set environment variables with **export**_
+
+- export SESSION_SECRET=sessionsecret
+
+Export all the variables with this method
+
+- `printenv`
+- check if variables are exported successfully

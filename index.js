@@ -8,7 +8,7 @@ const RedisStore = require("connect-redis")(session)
 
 const redisClient = redis.createClient({
   legacyMode: true,
-  url: "redis://redis:6379",
+  url: `redis://${config.REDIS_URL}:${config.REDIS_PORT}`,
 })
 redisClient.connect().catch(console.error)
 
@@ -20,6 +20,7 @@ const app = express()
 // Routers
 const PostRouter = require("./routes/PostRouter")
 const UserRouter = require("./routes/UserRouter")
+const { REDIS_PORT } = require("./config/config")
 
 // mongodb connection
 connectDB()

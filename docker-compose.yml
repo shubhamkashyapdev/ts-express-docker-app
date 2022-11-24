@@ -8,8 +8,6 @@ services:
   node-app:
     build: .
     image: dev1800/node-app
-    env_file:
-      - ./.env
     depends_on:
       - database
       - redis

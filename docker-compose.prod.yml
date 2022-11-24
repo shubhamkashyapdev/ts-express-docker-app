@@ -8,6 +8,17 @@ services:
       context: .
       args: 
         NODE_ENV: production
-    env_file:
-      - ./.env.production
+    environment:
+      - NODE_ENV=production
+      - MONGO_USERNAME=skdev
+      - MONGO_PASSWORD=skdev
+      - SESSION_SECRET=sessionsecret
+      - MONGO_IP_ADDRESS=database
+      - MONGO_PORT=27017
     command: node index.js
+    ports:
+      - '5000:5000'
+  database:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=skdev
+      - MONGO_INITDB_ROOT_PASSWORD=skdev
