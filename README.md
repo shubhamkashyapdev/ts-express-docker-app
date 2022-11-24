@@ -131,3 +131,22 @@ docker-compose is a development tool and is not ment to be used in production th
 - copy the eth0 IP address, example: 172.31.39.168
 
 - `docker swarm init --advertise-addr 172.31.39.168`
+
+- add the docker swarm configuration in the docker-compose.yml file
+- commit and deploy the changes to github
+- pull the changes on production
+- stop all docker containers (down)
+
+_now instead of docker-compose we will use docker swarm to start the services_
+
+_swarm build command_
+
+- `docker stack deploy -c docker-compose.yml -c docker-compose.prod.yml myapp` (myapp is the stack name which can be set to anything)
+
+- `docker node ls`
+- `docker stack ps myapp` - list all services in myapp
+
+- do some code changes
+- build a new image
+- push the image to hub
+- on production server run the **swarm build command** listed above
