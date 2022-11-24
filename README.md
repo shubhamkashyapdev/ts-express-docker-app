@@ -1,7 +1,5 @@
 # Video URL: [https://youtu.be/9zUHg7xjIqQ]
 
-4:00:00 - Deployment to production
-
 # Run a process with bind mount (volumes) - auto sync
 
 `docker run --name <process-name-any> -p 5000:5000 -v C:/WebDevelopment/MyProjects/Docker/docker_express_app:/app -v /app/node_modules -d <contianer-name>`
@@ -79,3 +77,57 @@ Export all the variables with this method
 
 - `printenv`
 - check if variables are exported successfully
+
+# nginx address already in use error then
+
+- sudo pkill -f nginx & wait $!
+- run the docker-compose up command again
+
+# Running dokcer without sudo
+
+- echo $USER
+- sudo usermod -aG docker $USER
+- **logout** and then **login** agian
+- sudo systemctl restart docker
+- docker ps
+
+# Docker CICD
+
+- create your docker hub account and then create a new repository of any name, example: node-app
+
+- copy the image name, example: dev1800/node-app (listed on right side under docker commands "ignore the tagname for now it will be :latest by default)
+
+- name your node-app image (currently set to dev1800/node-app)
+
+- `docker ps`
+- copy the node-app process name
+- `docker run -d --name watchtower -e WATCHTOWER_TRACE=true -e WATCHTOWER_DEBUG=true -e WATCHTOWERe -e WATCHTWOER_POLL_INTERVAL=50 -v /var/run/docker.sock:/var/run/docker.sock containrrr/watchtower app_node-app-1`
+- example: app_node-app-1 is node-app process name here
+
+- `docker logs watchtower -f` - watchtower logs
+
+# Deploy new changes
+
+- do some code cahnges
+- rebuild the image (with docker-compose up command)
+- docker push node-app
+- watchtower will watch the new image update and will update the image on production server
+
+# Deploying with watchtower
+
+- without using watchtower we would have to rebuild the image on production server manually
+
+- `docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build --no-deps node-app`
+
+- the **--build** command will rebuild the image, **--no-deps** command will stop the dependency images from rebuilding like mongodb and redis, and by specifying the **node-app** only the _node-app_ image will be rebuild
+
+# Docker Swarm
+
+<hr />
+
+docker-compose is a development tool and is not ment to be used in production therefore we have solutions like _docker swarm_ that are container orchestrators and can handle container on multiple servers so if one server goes down the other one can be used as backup, also it uses rolling updates therefore our production server won't go down when a new push is made to docker hub as the docker-compose will have to tear down the old container and then build a new one which causes server to go down until the container is up again.
+
+- `ip add` - will list out all the IP addresses
+- copy the eth0 IP address, example: 172.31.39.168
+
+- `docker swarm init --advertise-addr 172.31.39.168`

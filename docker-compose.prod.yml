@@ -8,6 +8,15 @@ services:
       context: .
       args: 
         NODE_ENV: production
+    # Docker Swarm configurations
+    deploy:
+      replicas: 4
+      restart_policy:
+        condition: any
+      update_config:
+        parallelism: 2
+        delay: 15s
+
     environment:
       - NODE_ENV=production
       - MONGO_USERNAME=skdev
