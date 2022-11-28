@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   MONGO_USERNAME: process.env.MONGO_USERNAME,
   MONGO_PASSWORD: process.env.MONGO_PASSWORD,
   MONGO_IP_ADDRESS: process.env.MONGO_IP_ADDRESS || "database",

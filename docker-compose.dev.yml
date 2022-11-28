@@ -13,7 +13,6 @@ services:
       - /app/node_modules
     env_file:
       - ./.env.development
-    command: yarn dev
   database:
     image: mongo
     environment:

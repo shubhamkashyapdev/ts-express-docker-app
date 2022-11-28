@@ -1,12 +1,12 @@
-const express = require("express")
-const {
+import express from "express"
+import {
   getAllPosts,
   getPost,
   createPost,
   updatePost,
   deletePost,
-} = require("../controller/PostController")
-const protect = require("../middlewares/authMiddleware")
+} from "@/controller/PostController"
+import { protect } from "@/middlewares/authMiddleware"
 
 const router = express.Router()
 
@@ -16,4 +16,4 @@ router.post("/", protect, createPost)
 router.patch("/:id", protect, updatePost)
 router.delete("/:id", protect, deletePost)
 
-module.exports = router
+export default router

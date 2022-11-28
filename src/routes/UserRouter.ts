@@ -1,12 +1,12 @@
-const express = require("express")
-const {
+import express from "express"
+import {
   getAllUsers,
   getUser,
   createUser,
   updateUser,
   deleteUser,
   login,
-} = require("../controller/UserController")
+} from "@/controller/UserController"
 
 const router = express.Router()
 
@@ -17,4 +17,4 @@ router.post("/login", login)
 router.patch("/:id", updateUser)
 router.delete("/:id", deleteUser)
 
-module.exports = router
+export default router

@@ -1,12 +1,13 @@
-const PostModel = require("../models/Post")
-exports.getAllPosts = async (req, res, next) => {
+import PostModel from "@/models/Post"
+import { Request, Response } from "express"
+export const getAllPosts = async (req: Request, res: Response) => {
   const posts = await PostModel.find({})
   res.status(200).json({
     type: "success",
     data: posts,
   })
 }
-exports.getPost = async (req, res, next) => {
+export const getPost = async (req: Request, res: Response) => {
   const id = req.params.id
   try {
     const post = await PostModel.findById(id)
@@ -21,7 +22,7 @@ exports.getPost = async (req, res, next) => {
       type: "success",
       data: post,
     })
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({
       type: "error",
       message: err.message,
@@ -29,7 +30,7 @@ exports.getPost = async (req, res, next) => {
   }
 }
 
-exports.createPost = async (req, res, next) => {
+export const createPost = async (req: Request, res: Response) => {
   const postData = req.body
   try {
     const post = await PostModel.create(postData)
@@ -37,7 +38,7 @@ exports.createPost = async (req, res, next) => {
       type: "success",
       data: post,
     })
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({
       type: "error",
       message: err.message,
@@ -45,7 +46,7 @@ exports.createPost = async (req, res, next) => {
   }
 }
 
-exports.updatePost = async (req, res) => {
+export const updatePost = async (req: Request, res: Response) => {
   const id = req.params.id
   const newPostData = req.body
   try {
@@ -57,7 +58,7 @@ exports.updatePost = async (req, res) => {
       type: "success",
       data: newPost,
     })
-  } catch (error) {
+  } catch (err: any) {
     res.status(500).json({
       type: "error",
       message: err.message,
@@ -65,7 +66,7 @@ exports.updatePost = async (req, res) => {
   }
 }
 
-exports.deletePost = async (req, res) => {
+export const deletePost = async (req: Request, res: Response) => {
   const id = req.params.id
   try {
     await PostModel.findByIdAndRemove(id)
@@ -73,7 +74,7 @@ exports.deletePost = async (req, res) => {
       type: "success",
       message: `Post with id ${id} deleted successfully`,
     })
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({
       type: "error",
       message: err.message,

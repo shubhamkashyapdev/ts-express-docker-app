@@ -1,13 +1,14 @@
-const UserModel = require("../models/User")
-const bcrypt = require("bcryptjs")
-exports.getAllUsers = async (req, res, next) => {
+import UserModel from "@/models/User"
+import bcrypt from "bcryptjs"
+import { Request, Response } from "express"
+export const getAllUsers = async (req: Request, res: Response) => {
   const users = await UserModel.find({}).select("-password")
   res.status(200).json({
     type: "success",
     data: users,
   })
 }
-exports.getUser = async (req, res, next) => {
+export const getUser = async (req: Request, res: Response) => {
   const id = req.params.id
   try {
     const user = await UserModel.findById(id).select("-password")
@@ -22,7 +23,7 @@ exports.getUser = async (req, res, next) => {
       type: "success",
       data: user,
     })
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({
       type: "error",
       message: err.message,
@@ -30,17 +31,18 @@ exports.getUser = async (req, res, next) => {
   }
 }
 
-exports.createUser = async (req, res, next) => {
+export const createUser = async (req: Request, res: Response) => {
   const data = req.body
   const userData = await hashPassword(data)
   try {
     const user = await UserModel.create(userData)
+    // @ts-ignore
     req.session.user = user
     res.status(200).json({
       type: "success",
       data: user,
     })
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({
       type: "error",
       message: err.message,
@@ -48,7 +50,7 @@ exports.createUser = async (req, res, next) => {
   }
 }
 
-exports.updateUser = async (req, res) => {
+export const updateUser = async (req: Request, res: Response) => {
   const id = req.params.id
   const newUserData = req.body
   try {
@@ -66,7 +68,7 @@ exports.updateUser = async (req, res) => {
       type: "success",
       data: newUser,
     })
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({
       type: "error",
       message: err.message,
@@ -74,7 +76,7 @@ exports.updateUser = async (req, res) => {
   }
 }
 
-exports.deleteUser = async (req, res) => {
+export const deleteUser = async (req: Request, res: Response) => {
   const id = req.params.id
   try {
     await UserModel.findByIdAndRemove(id)
@@ -82,7 +84,7 @@ exports.deleteUser = async (req, res) => {
       type: "success",
       message: `User with id ${id} deleted successfully`,
     })
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({
       type: "error",
       message: err.message,
@@ -90,7 +92,7 @@ exports.deleteUser = async (req, res) => {
   }
 }
 
-exports.login = async (req, res) => {
+export const login = async (req: Request, res: Response) => {
   const session = req.session
   const { email, password } = req.body
   if (!email || !password) {
@@ -115,11 +117,12 @@ exports.login = async (req, res) => {
         message: `Invalid Password`,
       })
     }
+    // @ts-ignore
     session.user = user
     res.status(200).json({
       type: "success",
     })
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({
       type: "error",
       message: err.message,
@@ -128,7 +131,7 @@ exports.login = async (req, res) => {
 }
 
 // Utils
-const hashPassword = async (data) => {
+const hashPassword = async (data: any) => {
   const password = await bcrypt.hash(data.password, 10)
   data.password = password
   return data
