@@ -7,7 +7,7 @@
     "start": "node index.js",
     "server": "npm run dev:tsc",
     "dev": "nodemon -L -q dist/index.js",
-    "dev:tsc": "ts-node-dev -r tsconfig-paths/register --poll --exit-child --respawn --transpile-only src/index.ts",
+    "dev:tsc": "ts-node-dev -r tsconfig-paths/register --poll  --respawn --transpile-only src/index.ts",
     "lint": "eslint . --ext .ts",
     "prettier-format": "prettier --config .prettierrc.json 'src/**/*.ts' --write"
   },
