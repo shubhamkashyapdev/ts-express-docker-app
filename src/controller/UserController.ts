@@ -23,10 +23,10 @@ export const getUser = async (req: Request, res: Response) => {
       type: "success",
       data: user,
     })
-  } catch (err: any) {
+  } catch (err: unknown) {
     res.status(500).json({
       type: "error",
-      message: err.message,
+      message: err,
     })
   }
 }
@@ -42,10 +42,10 @@ export const createUser = async (req: Request, res: Response) => {
       type: "success",
       data: user,
     })
-  } catch (err: any) {
+  } catch (err: unknown) {
     res.status(500).json({
       type: "error",
-      message: err.message,
+      message: err,
     })
   }
 }
@@ -68,10 +68,10 @@ export const updateUser = async (req: Request, res: Response) => {
       type: "success",
       data: newUser,
     })
-  } catch (err: any) {
+  } catch (err: unknown) {
     res.status(500).json({
       type: "error",
-      message: err.message,
+      message: err,
     })
   }
 }
@@ -84,10 +84,10 @@ export const deleteUser = async (req: Request, res: Response) => {
       type: "success",
       message: `User with id ${id} deleted successfully`,
     })
-  } catch (err: any) {
+  } catch (err: unknown) {
     res.status(500).json({
       type: "error",
-      message: err.message,
+      message: err,
     })
   }
 }
@@ -122,10 +122,10 @@ export const login = async (req: Request, res: Response) => {
     res.status(200).json({
       type: "success",
     })
-  } catch (err: any) {
+  } catch (err: unknown) {
     res.status(500).json({
       type: "error",
-      message: err.message,
+      message: err,
     })
   }
 }

@@ -6,7 +6,6 @@ import session from "express-session"
 import * as redis from "redis"
 import connectRedis from "connect-redis"
 import morgan from "morgan"
-console.log("is it working?")
 const RedisStore = connectRedis(session)
 import connectDB from "@/config/connectDB"
 
@@ -59,8 +58,8 @@ app.get("/api/v1", (req, res, next) => {
   res.send(`<h1>API is Working!</h1>`)
   console.log("------- It Ran!! -------")
 })
-app.use("/api/v1/post", PostRouter)
-app.use("/api/v1/user", UserRouter)
+app.use("/api/v1/posts", PostRouter)
+app.use("/api/v1/users", UserRouter)
 
 app.listen(PORT, () => {
   console.log(`App is listening on port: ${PORT} in ${ENVIRONMENT} environment`)

@@ -22,10 +22,10 @@ export const getPost = async (req: Request, res: Response) => {
       type: "success",
       data: post,
     })
-  } catch (err: any) {
+  } catch (err: unknown) {
     res.status(500).json({
       type: "error",
-      message: err.message,
+      message: err,
     })
   }
 }
@@ -38,10 +38,10 @@ export const createPost = async (req: Request, res: Response) => {
       type: "success",
       data: post,
     })
-  } catch (err: any) {
+  } catch (err: unknown) {
     res.status(500).json({
       type: "error",
-      message: err.message,
+      message: err,
     })
   }
 }
@@ -58,10 +58,10 @@ export const updatePost = async (req: Request, res: Response) => {
       type: "success",
       data: newPost,
     })
-  } catch (err: any) {
+  } catch (err: unknown) {
     res.status(500).json({
       type: "error",
-      message: err.message,
+      message: err,
     })
   }
 }
@@ -74,10 +74,10 @@ export const deletePost = async (req: Request, res: Response) => {
       type: "success",
       message: `Post with id ${id} deleted successfully`,
     })
-  } catch (err: any) {
+  } catch (err: unknown) {
     res.status(500).json({
       type: "error",
-      message: err.message,
+      message: err,
     })
   }
 }
