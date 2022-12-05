@@ -3,24 +3,30 @@ import 'reflect-metadata'
 import express, { Express } from 'express'
 import cors from 'cors'
 import session from 'express-session'
-import * as redis from 'redis'
 import connectRedis from 'connect-redis'
 import morgan from 'morgan'
 const RedisStore = connectRedis(session)
 import connectDB from '@/config/connectDB'
-const redisClient = redis.createClient({
-    legacyMode: true,
-    url: `redis://${config.REDIS_URL}:${config.REDIS_PORT}`
-})
 
 const app: Express = express()
 
 // Routers
 import PostRouter from '@/routes/PostRouter'
 import UserRouter from '@/routes/UserRouter'
-
+import { redisClient } from '@/utils/redisClient'
+import { rateLimiter } from '@/utils/rateLimiter'
+redisClient.on('error', (err) => console.log('Redis Client Error', err))
 // mongodb connection
 connectDB()
+redisClient.connect()
+redisClient
+    .on('connect', async () => {
+        // @ts-ignore
+        console.log(`connected to redis`)
+    })
+    .on('error', (err) => {
+        console.log('redis connection error', err)
+    })
 // trust the nginx proxy headers
 app.enable('trust proxy')
 app.use(cors())
@@ -42,6 +48,7 @@ app.use(
         }
     })
 )
+app.use(rateLimiter)
 app.use(function (req, res, next) {
     if (!req.session) {
         return next(new Error('oh no session lost!')) // @todo - handle error
