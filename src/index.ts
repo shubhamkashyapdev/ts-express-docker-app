@@ -11,10 +11,9 @@ import connectDB from '@/config/connectDB'
 const app: Express = express()
 
 // Routers
-import PostRouter from '@/routes/PostRouter'
-import UserRouter from '@/routes/UserRouter'
-import { redisClient } from '@/utils/redisClient'
-import { rateLimiter } from '@/utils/rateLimiter'
+import { PostRouter, UserRouter } from '@/routes'
+
+import { redisClient, rateLimiter } from '@/utils'
 redisClient.on('error', (err) => console.log('Redis Client Error', err))
 // mongodb connection
 connectDB()
@@ -48,7 +47,10 @@ app.use(
         }
     })
 )
-app.use(rateLimiter)
+
+// Request limited to 10 calls per 60 seconds
+app.use(rateLimiter(10, 60))
+
 app.use(function (req, res, next) {
     if (!req.session) {
         return next(new Error('oh no session lost!')) // @todo - handle error
