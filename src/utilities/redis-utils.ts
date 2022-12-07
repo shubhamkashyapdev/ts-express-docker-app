@@ -2,10 +2,12 @@ import config from '@/config/config'
 import * as redis from 'redis'
 import { promisify } from 'util'
 
-export const redisClient = redis.createClient({
-    legacyMode: true,
-    url: `redis://${config.REDIS_URL}:${config.REDIS_PORT}`
-})
+export const redisClient = process.env.REDIS_URI
+    ? redis.createClient()
+    : redis.createClient({
+          legacyMode: true,
+          url: `redis://${config.REDIS_URL}:${config.REDIS_PORT}`
+      })
 
 export const aSet = promisify(redisClient.set).bind(redisClient)
 export const aGet = promisify(redisClient.get).bind(redisClient)

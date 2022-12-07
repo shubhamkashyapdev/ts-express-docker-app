@@ -4,6 +4,8 @@ import cors from 'cors'
 import session from 'express-session'
 import connectRedis from 'connect-redis'
 import morgan from 'morgan'
+import dotenv from 'dotenv'
+dotenv.config()
 const RedisStore = connectRedis(session)
 import connectDB from '@/config/connectDB'
 
