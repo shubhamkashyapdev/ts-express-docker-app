@@ -1,9 +1,9 @@
 import mongoose from 'mongoose'
-import mongoCred from './config'
+import config from './config'
 export default function connectDB() {
     const mongoSRV =
-        process.env.MONGO_URI ||
-        `mongodb://${mongoCred.MONGO_USERNAME}:${mongoCred.MONGO_PASSWORD}@${mongoCred.MONGO_IP_ADDRESS}:${mongoCred.MONGO_PORT}?authSource=admin`
+        config.MONGO_URI ||
+        `mongodb://${config.MONGO_USERNAME}:${config.MONGO_PASSWORD}@${config.MONGO_IP_ADDRESS}:${config.MONGO_PORT}?authSource=admin`
 
     mongoose
         .connect(mongoSRV)

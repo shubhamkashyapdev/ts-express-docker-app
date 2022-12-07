@@ -1,10 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import {
-    aExpire,
-    aIncr,
-    aTtl,
-    redisClient as redis
-} from '@/utilities/redis-utils'
+import { aExpire, aIncr, aTtl } from '@/utilities/redis-utils'
 
 export const rateLimiter = (MAX_CALLS: number, WINDOW_SECONDS: number) => {
     return async function (req: Request, res: Response, next: NextFunction) {
@@ -14,9 +9,11 @@ export const rateLimiter = (MAX_CALLS: number, WINDOW_SECONDS: number) => {
 
         // increment request hit
         const requests = await aIncr(`ip:${ip}`)
+
         if (requests <= 1) {
             await aExpire(`ip:${ip}`, WINDOW_SECONDS)
         }
+
         ttl = await aTtl(`ip:${ip}`)
         if (requests > MAX_CALLS) {
             return res.status(503).json({

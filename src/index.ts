@@ -1,4 +1,3 @@
-import config from '@/config/config'
 import express, { Express } from 'express'
 import cors from 'cors'
 import session from 'express-session'
@@ -6,6 +5,7 @@ import connectRedis from 'connect-redis'
 import morgan from 'morgan'
 import dotenv from 'dotenv'
 dotenv.config()
+import config from '@/config/config'
 const RedisStore = connectRedis(session)
 import connectDB from '@/config/connectDB'
 
@@ -30,11 +30,10 @@ connectDB()
 redisClient.connect()
 redisClient
     .on('connect', async () => {
-        console.log(`connected to redis`)
-        // @ts-ignore
-        const redisSetRes = await aSet('async-redis', 'async-redis-value')
-        const redisGetRes = await aGet('async-redis')
-        console.log({ redisSetRes, redisGetRes })
+        console.log(`check redis status`)
+        const redisSetValue = await aSet('redis', 'redis-value')
+        const redisGetValue = await aGet('redis')
+        console.log({ redisSetValue, redisGetValue })
     })
     .on('error', (err) => {
         console.log('redis connection error', err)
@@ -47,6 +46,9 @@ if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'))
 }
 
+console.log({ config })
+// Request limited to 10 calls per 60 seconds
+app.use(rateLimiter(10, 60))
 app.use(
     session({
         store: new RedisStore({ client: redisClient }),
@@ -60,9 +62,6 @@ app.use(
         }
     })
 )
-
-// Request limited to 10 calls per 60 seconds
-app.use(rateLimiter(10, 60))
 
 app.use(function (req, res, next) {
     if (!req.session) {
