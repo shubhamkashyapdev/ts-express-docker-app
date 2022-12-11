@@ -1,4 +1,9 @@
-import mongoose from 'mongoose'
+import mongoose, { Document } from 'mongoose'
+
+interface PostDocument extends Document {
+    title: string
+    body: string
+}
 
 const PostSchema = new mongoose.Schema({
     title: {
@@ -11,5 +16,5 @@ const PostSchema = new mongoose.Schema({
     }
 })
 
-const Post = mongoose.model('post', PostSchema)
+const Post = mongoose.model<PostDocument>('post', PostSchema)
 export default Post

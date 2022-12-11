@@ -28,16 +28,17 @@ redisClient.on('error', (err) => console.log('Redis Client Error', err))
 // mongodb connection
 connectDB()
 redisClient.connect()
-redisClient
-    .on('connect', async () => {
-        console.log(`check redis status`)
-        const redisSetValue = await aSet('redis', 'redis-value')
-        const redisGetValue = await aGet('redis')
-        console.log({ redisSetValue, redisGetValue })
-    })
-    .on('error', (err) => {
-        console.log('redis connection error', err)
-    })
+redisClient.on('error', (err) => {
+    console.log('redis connection error', err)
+})
+redisClient.on('connect', async () => {
+    console.log(`check redis status`)
+    const redisSetValue = await aSet('redis', 'redis-value')
+    console.log({ redisSetValue })
+    const redisGetValue = await aGet('redis')
+    console.log({ redisSetValue, redisGetValue })
+})
+
 // trust the nginx proxy headers
 app.enable('trust proxy')
 app.use(cors())
@@ -46,19 +47,18 @@ if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'))
 }
 
-console.log({ config })
 // Request limited to 10 calls per 60 seconds
 app.use(rateLimiter(10, 60))
 app.use(
     session({
         store: new RedisStore({ client: redisClient }),
-        secret: config.SESSION_SECRET || '',
+        secret: config.SESSION_SECRET || 'sessionsecret',
         saveUninitialized: false,
         resave: false,
         cookie: {
             secure: false,
             httpOnly: true,
-            maxAge: 1000 * 3
+            maxAge: 60 * 60 * 60
         }
     })
 )
