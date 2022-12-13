@@ -1,5 +1,6 @@
 import PostModel from '@/models/Post'
 import { Request, Response } from 'express'
+import { io } from '@/index'
 export const getAllPosts = async (req: Request, res: Response) => {
     const posts = await PostModel.find({})
     res.status(200).json({
@@ -38,6 +39,7 @@ export const createPost = async (req: Request, res: Response) => {
             type: 'success',
             data: post
         })
+        io.emit('new-post-created')
     } catch (err: any) {
         res.status(500).json({
             type: 'error',

@@ -1,4 +1,4 @@
-import express, { Express } from 'express'
+import express, { Express, NextFunction, Request, Response } from 'express'
 import cors from 'cors'
 import session from 'express-session'
 import connectRedis from 'connect-redis'
@@ -8,6 +8,8 @@ dotenv.config()
 import config from '@/config/config'
 const RedisStore = connectRedis(session)
 import connectDB from '@/config/connectDB'
+import logger from '@/utilities/logger'
+import { Server, Socket } from 'socket.io'
 
 const app: Express = express()
 
@@ -37,6 +39,12 @@ redisClient.on('connect', async () => {
     console.log({ redisSetValue })
     const redisGetValue = await aGet('redis')
     console.log({ redisSetValue, redisGetValue })
+})
+
+// Headers
+app.use((req: Request, res: Response, next: NextFunction) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    next()
 })
 
 // trust the nginx proxy headers
@@ -96,8 +104,26 @@ app.get(
 app.use('/api/v1/post', PostRouter)
 app.use('/api/v1/user', UserRouter)
 
-app.listen(PORT, () => {
-    console.log(
+const server = app.listen(PORT, () => {
+    logger.info(
         `App is listening on port: ${PORT} in ${ENVIRONMENT} environment`
     )
+})
+
+export const io = new Server(server, {
+    cors: {
+        origin: '*'
+    }
+})
+
+io.on('connection', (socket: Socket) => {
+    console.log(`Connected to client: ${socket.id}`)
+
+    socket.on('message', (message: any) => {
+        socket.emit(message)
+    })
+
+    socket.on('disconnect', () => {
+        console.log(`Disconnected from client`)
+    })
 })
