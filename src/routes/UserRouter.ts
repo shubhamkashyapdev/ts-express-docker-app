@@ -7,7 +7,7 @@ import {
     deleteUser,
     login
 } from '@/controller/UserController'
-import { validate, UserZodSchema } from '@/zod-schema'
+import { validate, UserZodSchema } from '@/schema'
 
 const router = express.Router()
 

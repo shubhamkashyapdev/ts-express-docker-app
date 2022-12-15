@@ -7,7 +7,7 @@ import {
     deletePost
 } from '@/controller/PostController'
 import { protect } from '@/middlewares/authMiddleware'
-import { validate, PostZodSchema } from '@/zod-schema'
+import { validate, PostZodSchema } from '@/schema'
 
 const router = express.Router()
 

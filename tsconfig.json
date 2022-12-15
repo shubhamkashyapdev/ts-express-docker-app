@@ -3,6 +3,9 @@
         "target": "ES2015",
         "lib": ["ESNext"],
         "module": "NodeNext",
+        "moduleResolution": "node",
+        "forceConsistentCasingInFileNames": true,
+        "checkJs": true,
         "skipLibCheck": true,
         "esModuleInterop": true,
         "strict": true,
@@ -12,5 +15,10 @@
         "paths": {
             "@/*": ["./*"]
         }
-    }
+    },
+    "ts-node": {
+        "transpileOnly": true,
+        "files": true
+    },
+    "exclude": ["./coverage", "./dist", "__tests__", "jest.config.js"]
 }
