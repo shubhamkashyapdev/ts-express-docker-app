@@ -22,7 +22,7 @@ export const rateLimiter = (MAX_CALLS: number, WINDOW_SECONDS: number) => {
                 ttl
             })
         } else {
-            console.log(
+            logger.info(
                 `Number of requests made so far: ${requests} and the limiter will reset in ${ttl}`
             )
             next()

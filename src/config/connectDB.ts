@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import logger from '@/utilities/logger'
 import config from './config'
 export function connectDB() {
     const mongoSRV =
@@ -8,9 +9,9 @@ export function connectDB() {
     mongoose
         .connect(mongoSRV)
         .then(() => {
-            console.log('Successfully connected to MongoDB')
+            logger.info('Successfully connected to MongoDB')
         })
         .catch((err) => {
-            console.log(`MongoDB Connection Failed: ${err.message}`)
+            logger.info(`MongoDB Connection Failed: ${err.message}`)
         })
 }

@@ -120,7 +120,7 @@ export const login = async (req: Request, res: Response) => {
         // @ts-ignore
         session.user = user
 
-        console.log({ session })
+        logger.info({ session })
         res.status(200).json({
             type: 'success'
         })

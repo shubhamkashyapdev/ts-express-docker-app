@@ -23,13 +23,13 @@ export const io = new Server(server, {
 })
 
 io.on('connection', (socket: Socket) => {
-    console.log(`Connected to client: ${socket.id}`)
+    logger.info(`Connected to client: ${socket.id}`)
 
     socket.on('message', (message: any) => {
         socket.emit(message)
     })
 
     socket.on('disconnect', () => {
-        console.log(`Disconnected from client`)
+        logger.info(`Disconnected from client`)
     })
 })

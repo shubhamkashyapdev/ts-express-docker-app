@@ -1,7 +1,7 @@
 // import { PostRouter, UserRouter } from '@/routes'
 import PostRouter from '@/routes/PostRouter'
 import UserRouter from '@/routes/UserRouter'
-
+import logger from '@/utilities/logger'
 import {
     aSet,
     REDIS_KEYS,
@@ -23,18 +23,18 @@ const createServer = () => {
     // @todo use app from createServer instead
     const app: Express = express()
     // Routers
-    redisClient.on('error', (err) => console.log('Redis Client Error', err))
+    redisClient.on('error', (err) => logger.info('Redis Client Error', err))
 
     redisClient.connect()
     redisClient.on('error', (err) => {
-        console.log('redis connection error', err)
+        logger.info('redis connection error', err)
     })
     redisClient.on('connect', async () => {
-        console.log(`check redis status`)
+        logger.info(`check redis status`)
         const redisSetValue = await aSet('redis', 'redis-value')
-        console.log({ redisSetValue })
+        logger.info({ redisSetValue })
         const redisGetValue = await aGet('redis')
-        console.log({ redisSetValue, redisGetValue })
+        logger.info({ redisSetValue, redisGetValue })
     })
 
     // Headers
@@ -78,7 +78,7 @@ const createServer = () => {
         '/api/v1',
         redisStatic(REDIS_KEYS.HEALTH_CHECK.key),
         async (req, res) => {
-            console.log('get data from DB')
+            logger.info('get data from DB')
             // fetch/compute data and save in redis
             const axiosRes = JSON.stringify(
                 new Array(999).fill(0).sort().sort().sort().reverse()
