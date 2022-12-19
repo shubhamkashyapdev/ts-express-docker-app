@@ -1,3 +1,4 @@
+import { handleError } from '@/utilities/Error'
 import { NextFunction, Request, Response } from 'express'
 import { AnyZodObject } from 'zod'
 
@@ -11,11 +12,8 @@ const validate =
                 params: req.params
             })
             return next()
-        } catch (err: any) {
-            return res.status(400).json({
-                status: 'error',
-                message: err.message
-            })
+        } catch (err: unknown) {
+            handleError(res, err)
         }
     }
 export default validate

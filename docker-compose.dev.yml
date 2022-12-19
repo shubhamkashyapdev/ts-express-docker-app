@@ -1,23 +1,20 @@
-version: "3.8"
+version: '3.8'
 services:
-  nginx:
-    ports:
-      - "5000:80"
-  node-app:
-    build:
-      context: .
-      args: 
-        NODE_ENV: development
-    volumes:
-      - ./:/app
-      - /app/node_modules
-    env_file:
-      - ./.env.development
-  database:
-    image: mongo
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=skdev
-      - MONGO_INITDB_ROOT_PASSWORD=skdev
-
-  
-      
+    nginx:
+        ports:
+            - '5000:80'
+    node-app:
+        build:
+            context: .
+            args:
+                NODE_ENV: development
+        volumes:
+            - ./:/app
+            - /app/node_modules
+        env_file:
+            - ./.env.development
+    database:
+        image: mongo
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=skdev
+            - MONGO_INITDB_ROOT_PASSWORD=skdev

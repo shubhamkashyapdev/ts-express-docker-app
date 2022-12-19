@@ -1,7 +1,6 @@
-declare global {
-    namespace Express {
-        interface Request {
-            user: any
-        }
+import session from 'express-session'
+declare module 'express-session' {
+    export interface SessionData {
+        user: unknown
     }
 }

@@ -25,7 +25,7 @@ export const io = new Server(server, {
 io.on('connection', (socket: Socket) => {
     logger.info(`Connected to client: ${socket.id}`)
 
-    socket.on('message', (message: any) => {
+    socket.on('message', (message: string) => {
         socket.emit(message)
     })
 

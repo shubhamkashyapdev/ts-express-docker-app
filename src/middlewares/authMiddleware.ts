@@ -1,5 +1,5 @@
 import { SessionUserType } from '@/types'
-import { NextFunction, Request, Response } from 'express'
+import { NextFunction, Response, Request } from 'express'
 import { Session, SessionData } from 'express-session'
 
 export const protect = (req: Request, res: Response, next: NextFunction) => {
@@ -12,7 +12,7 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
             message: 'Unauthorized'
         })
     }
-    // @ts-ignore
+
     req.user = user
     next()
 }

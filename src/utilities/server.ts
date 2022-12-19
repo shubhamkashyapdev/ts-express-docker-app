@@ -83,7 +83,7 @@ const createServer = () => {
             const axiosRes = JSON.stringify(
                 new Array(999).fill(0).sort().sort().sort().reverse()
             )
-            //@ts-ignore
+
             await aSet(REDIS_KEYS.HEALTH_CHECK.key, axiosRes)
             await aExpire(
                 REDIS_KEYS.HEALTH_CHECK.key,

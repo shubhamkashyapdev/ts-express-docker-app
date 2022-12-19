@@ -1,6 +1,7 @@
 import PostModel from '@/models/Post'
 import { Request, Response } from 'express'
 import { io } from '@/index'
+import { handleError } from '@/utilities/Error'
 export const getAllPosts = async (req: Request, res: Response) => {
     const posts = await PostModel.find({})
     res.status(200).json({
@@ -23,11 +24,8 @@ export const getPost = async (req: Request, res: Response) => {
             type: 'success',
             data: post
         })
-    } catch (err: any) {
-        res.status(500).json({
-            type: 'error',
-            message: err.message
-        })
+    } catch (err: unknown) {
+        handleError(res, err)
     }
 }
 
@@ -40,11 +38,8 @@ export const createPost = async (req: Request, res: Response) => {
             data: post
         })
         io.emit('new-post-created')
-    } catch (err: any) {
-        res.status(500).json({
-            type: 'error',
-            message: err.message
-        })
+    } catch (err: unknown) {
+        handleError(res, err)
     }
 }
 
@@ -60,11 +55,8 @@ export const updatePost = async (req: Request, res: Response) => {
             type: 'success',
             data: newPost
         })
-    } catch (err: any) {
-        res.status(500).json({
-            type: 'error',
-            message: err.message
-        })
+    } catch (err: unknown) {
+        handleError(res, err)
     }
 }
 
@@ -76,10 +68,7 @@ export const deletePost = async (req: Request, res: Response) => {
             type: 'success',
             message: `Post with id ${id} deleted successfully`
         })
-    } catch (err: any) {
-        res.status(500).json({
-            type: 'error',
-            message: err.message
-        })
+    } catch (err: unknown) {
+        handleError(res, err)
     }
 }

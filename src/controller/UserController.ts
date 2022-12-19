@@ -1,6 +1,10 @@
 import UserModel from '@/models/User'
+import { handleError } from '@/utilities/Error'
+import logger from '@/utilities/logger'
+
 import bcrypt from 'bcryptjs'
 import { Request, Response } from 'express'
+
 export const getAllUsers = async (req: Request, res: Response) => {
     const users = await UserModel.find({}).select('-password')
     res.status(200).json({
@@ -23,30 +27,26 @@ export const getUser = async (req: Request, res: Response) => {
             type: 'success',
             data: user
         })
-    } catch (err: any) {
-        res.status(500).json({
-            type: 'error',
-            message: err.message
-        })
+    } catch (err: unknown) {
+        handleError(res, err)
     }
 }
 
 export const createUser = async (req: Request, res: Response) => {
     const data = req.body
-    const userData = await hashPassword(data)
+    const password = await hashPassword(data.password)
+    data.password = password
     try {
-        const user = await UserModel.create(userData)
-        // @ts-ignore
+        const user = await UserModel.create(data)
+
         req.session.user = user
+
         res.status(200).json({
             type: 'success',
             data: user
         })
-    } catch (err: any) {
-        res.status(500).json({
-            type: 'error',
-            message: err.message
-        })
+    } catch (err) {
+        handleError(res, err)
     }
 }
 
@@ -68,11 +68,8 @@ export const updateUser = async (req: Request, res: Response) => {
             type: 'success',
             data: newUser
         })
-    } catch (err: any) {
-        res.status(500).json({
-            type: 'error',
-            message: err.message
-        })
+    } catch (err: unknown) {
+        handleError(res, err)
     }
 }
 
@@ -84,11 +81,8 @@ export const deleteUser = async (req: Request, res: Response) => {
             type: 'success',
             message: `User with id ${id} deleted successfully`
         })
-    } catch (err: any) {
-        res.status(500).json({
-            type: 'error',
-            message: err.message
-        })
+    } catch (err: unknown) {
+        handleError(res, err)
     }
 }
 
@@ -117,24 +111,20 @@ export const login = async (req: Request, res: Response) => {
                 message: `Invalid Password`
             })
         }
-        // @ts-ignore
+
         session.user = user
 
         logger.info({ session })
         res.status(200).json({
             type: 'success'
         })
-    } catch (err: any) {
-        res.status(500).json({
-            type: 'error',
-            message: err.message
-        })
+    } catch (err: unknown) {
+        handleError(res, err)
     }
 }
 
 // Utils
-const hashPassword = async (data: any) => {
-    const password = await bcrypt.hash(data.password, 10)
-    data.password = password
-    return data
+const hashPassword = async (password: string) => {
+    const hashedPassword = await bcrypt.hash(password, 10)
+    return hashedPassword
 }
