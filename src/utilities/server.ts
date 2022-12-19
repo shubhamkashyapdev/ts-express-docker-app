@@ -1,6 +1,4 @@
-// import { PostRouter, UserRouter } from '@/routes'
-import PostRouter from '@/routes/PostRouter'
-import UserRouter from '@/routes/UserRouter'
+import { PostRouter, UserRouter } from '@/routes'
 import logger from '@/utilities/logger'
 import {
     aSet,
@@ -18,10 +16,13 @@ import session from 'express-session'
 import connectRedis from 'connect-redis'
 const RedisStore = connectRedis(session)
 import { redisStatic } from '@/middlewares/redis'
+import { connectDB } from '@/config/connectDB'
 
 const createServer = () => {
     // @todo use app from createServer instead
     const app: Express = express()
+    // mongodb connection
+    connectDB()
     // Routers
     redisClient.on('error', (err) => logger.info('Redis Client Error', err))
 
@@ -100,5 +101,4 @@ const createServer = () => {
     // app.use('/api/v1/user', UserRouter)
     return app
 }
-
 export default createServer
