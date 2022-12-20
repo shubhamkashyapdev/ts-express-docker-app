@@ -9,7 +9,12 @@ import { connectDB } from '@/config/connectDB'
 const createServer = () => {
     // @todo use app from createServer instead
     const app: Express = express()
-    connectDB()
+    if (
+        process.env.NODE_ENV === 'production' ||
+        process.env.NODE_ENV === 'development'
+    ) {
+        connectDB()
+    }
     // Headers
     app.use((req: Request, res: Response, next: NextFunction) => {
         res.setHeader('Access-Control-Allow-Origin', '*')

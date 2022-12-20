@@ -6,11 +6,13 @@
   "scripts": {
     "start": "node index.js",
     "server": "npm run dev:tsc",
-    "dev": "vite --host=0.0.0.0",
+    "dev": "cross-env NODE_ENV=development vite --host=0.0.0.0",
     "dev:tsc": "ts-node-dev -r tsconfig-paths/register --poll --transpile-only src/index.ts",
     "lint": "eslint --fix",
+    "test": "cross-env NODE_ENV=testing vitest",
+    "test:ui": "cross-env NODE_ENV=testing vitest --ui",
     "prepare": "husky install .husky",
-    "format": "npx prettier --write ."
+    "format": "npx prettier --write ./src"
   },
   "keywords": [],
   "author": "",
@@ -41,6 +43,8 @@
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
+    "@vitest/ui": "^0.26.1",
+    "cross-env": "^7.0.3",
     "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-no-loops": "^0.3.0",

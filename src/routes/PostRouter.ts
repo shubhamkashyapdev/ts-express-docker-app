@@ -13,8 +13,8 @@ const router = express.Router()
 
 router.get('/', getAllPosts)
 router.get('/:id', getPost)
-router.post('/', protect, validate(PostZodSchema), createPost)
-router.patch('/:id', protect, updatePost)
-router.delete('/:id', protect, deletePost)
+router.post('/', validate(PostZodSchema), createPost)
+router.patch('/:id', updatePost)
+router.delete('/:id', deletePost)
 
 export default router
