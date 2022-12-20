@@ -1,7 +1,8 @@
 import dotenv from 'dotenv'
 dotenv.config()
 
-import createServer from '@/utilities/server'
+import createServer from '@/utilities/server/server'
 
 const app = createServer()
+
 export const viteNodeApp = app

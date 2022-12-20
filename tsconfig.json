@@ -27,6 +27,7 @@
         "jest.config.js",
         "tpes.d.ts",
         "vite.config.ts",
+        "vitest.config.ts",
         "global.d.ts"
     ]
 }

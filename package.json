@@ -28,7 +28,7 @@
     "express-session": "^1.17.3",
     "mongoose": "^6.7.2",
     "pino": "^8.7.0",
-    "redis": "^4.5.0",
+    "redis": "^4.5.1",
     "socket.io": "^4.5.4",
     "zod": "^3.19.1"
   },
@@ -46,6 +46,7 @@
     "eslint-plugin-no-loops": "^0.3.0",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.2",
+    "mongodb-memory-server": "^8.10.2",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.20",
     "prettier": "^2.8.1",

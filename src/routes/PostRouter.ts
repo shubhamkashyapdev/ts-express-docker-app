@@ -5,7 +5,7 @@ import {
     createPost,
     updatePost,
     deletePost
-} from '@/controller/PostController'
+} from '@/controller/PostController/PostController'
 import { protect } from '@/middlewares/authMiddleware'
 import { validate, PostZodSchema } from '@/schema'
 
