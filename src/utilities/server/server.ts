@@ -35,6 +35,7 @@ const createServer = () => {
             data: 'DATA FROM DB'
         })
     })
+
     app.use('/api/v1/post', PostRouter)
     app.use('/api/v1/user', UserRouter)
     // app.use('/api/v1/user', UserRouter)

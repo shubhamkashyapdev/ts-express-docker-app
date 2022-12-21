@@ -8,7 +8,11 @@ import * as path from 'path'
 export default defineConfig({
     server: {
         // vite server configs, for details see [vite doc](https://vitejs.dev/config/#server-host)
-        port: 5000
+        host: '0.0.0.0',
+        port: 5000,
+        watch: {
+            usePolling: true
+        }
     },
     plugins: [
         ...VitePluginNode({

@@ -45,7 +45,6 @@ describe('Testing Post Controller', () => {
                 title: 'Updated Post',
                 body: 'Updated Post Body'
             })
-        console.log({ updatedPost: updatedPost.body.data })
         expect(updatedPost.body.data.title).toBe('Updated Post')
     })
     it('Should delete the post', async () => {
@@ -54,7 +53,6 @@ describe('Testing Post Controller', () => {
             title: 'Test Post',
             body: 'Test Post Body'
         })
-        console.log(post.body.data._id)
         const id = post.body.data._id
         // delete the post
         const deletedPost = await request(app).delete(`/api/v1/post/${id}`)
