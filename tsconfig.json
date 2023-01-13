@@ -25,6 +25,9 @@
         "./dist",
         "__tests__",
         "jest.config.js",
-        "tpes.d.ts"
+        "tpes.d.ts",
+        "vite.config.ts",
+        "vitest.config.ts",
+        "global.d.ts"
     ]
 }

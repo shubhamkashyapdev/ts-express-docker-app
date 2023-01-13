@@ -1,8 +1,12 @@
-import { SessionUserType } from '@/types'
+import { AuthRequest, SessionUserType } from '@/types'
 import { NextFunction, Response, Request } from 'express'
 import { Session, SessionData } from 'express-session'
 
-export const protect = (req: Request, res: Response, next: NextFunction) => {
+export const protect = (
+    req: AuthRequest,
+    res: Response,
+    next: NextFunction
+) => {
     const session: Session & Partial<SessionData> = req.session
     const { user } = session as SessionUserType
 

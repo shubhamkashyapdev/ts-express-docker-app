@@ -8,8 +8,7 @@ export const redisStatic = (KEY: string) => {
         if (data) {
             return res.status(200).json({
                 type: 'success',
-                message: 'DATA FROM REDIS',
-                data
+                message: 'DATA FROM REDIS SERVER'
             })
         } else {
             next()
