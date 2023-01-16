@@ -1,13 +1,15 @@
 import mongoose from 'mongoose'
 import logger from '@/utilities/logger'
 import config from './config'
+const ENV = process.env.NODE_ENV
 export function connectDB() {
     const mongoSRV =
-        config.MONGO_URI ||
-        `mongodb://${config.MONGO_USERNAME}:${config.MONGO_PASSWORD}@${config.MONGO_IP_ADDRESS}:${config.MONGO_PORT}?authSource=admin`
+        ENV === 'vite'
+            ? config.MONGO_URI
+            : `mongodb://${config.MONGO_USERNAME}:${config.MONGO_PASSWORD}@${config.MONGO_IP_ADDRESS}:${config.MONGO_PORT}?authSource=admin`
 
     mongoose
-        .connect(mongoSRV)
+        .connect(mongoSRV as string)
         .then(() => {
             logger.info('Successfully connected to MongoDB')
         })

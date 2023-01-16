@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterEach, afterAll } from 'vitest'
 import * as db from '@/config/db'
-import createServer from '@/utilities/server/server'
+import createServer from '@/utilities/server/testServer'
 const app = createServer()
 import request from 'supertest'
 

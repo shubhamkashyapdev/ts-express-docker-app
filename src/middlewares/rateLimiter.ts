@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { aExpire, aIncr, aTtl } from '@/utilities/redis-utils'
+import { aExpire, aIncr, aTtl } from '@/utilities'
 import logger from '@/utilities/logger'
 
 export const rateLimiter = (MAX_CALLS: number, WINDOW_SECONDS: number) => {
@@ -8,7 +8,7 @@ export const rateLimiter = (MAX_CALLS: number, WINDOW_SECONDS: number) => {
             req.headers['x-forwarded-for'] || req.connection.remoteAddress
 
         // increment request hit
-        const requests = await aIncr(`ip:${ip}`)
+        const requests = (await aIncr(`ip:${ip}`)) as number
 
         if (requests <= 1) {
             await aExpire(`ip:${ip}`, WINDOW_SECONDS)

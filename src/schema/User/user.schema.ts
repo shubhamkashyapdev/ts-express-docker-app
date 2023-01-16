@@ -17,9 +17,11 @@ const UserZodSchema = z.object({
                 })
                 .min(6, 'Password must be at least 6 characters long')
                 .max(255, 'Password must be at less than 255 characters long'),
-            confirmPassword: z.string({
-                required_error: 'Confirm Password is required'
-            })
+            confirmPassword: z
+                .string({
+                    required_error: 'Confirm Password is required'
+                })
+                .optional()
         })
         .refine((data) => data.password === data.confirmPassword, {
             message: 'Password do not match',

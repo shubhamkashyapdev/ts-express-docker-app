@@ -8,10 +8,11 @@ import {
     login
 } from '@/controller/UserController'
 import { validate, UserZodSchema } from '@/schema'
+import { protect } from '@/middlewares/authMiddleware'
 
 const router = express.Router()
 
-router.get('/', getAllUsers)
+router.get('/', protect, getAllUsers)
 router.get('/:id', getUser)
 router.post('/', validate(UserZodSchema), createUser)
 router.post('/login', login)

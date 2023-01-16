@@ -10,6 +10,11 @@
     ],
     "rules": {
         "no-loops/no-loops": 2,
-        "prettier/prettier": 2
+        "prettier/prettier": [
+            "error",
+            {
+                "endOfLine": "auto"
+            }
+        ]
     }
 }

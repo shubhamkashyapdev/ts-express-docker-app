@@ -1,4 +1,4 @@
-import createServer from './server'
+import createServer from './testServer'
 const app = createServer()
 import { describe, it, expect, beforeAll, afterAll, afterEach } from 'vitest'
 import request from 'supertest'

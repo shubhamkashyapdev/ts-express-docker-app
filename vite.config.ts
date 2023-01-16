@@ -3,6 +3,7 @@ import { defineConfig } from 'vite'
 import { VitePluginNode } from 'vite-plugin-node'
 import liveReload from 'vite-plugin-live-reload'
 import Terminal from 'vite-plugin-terminal'
+
 import * as path from 'path'
 
 export default defineConfig({
