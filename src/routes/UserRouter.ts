@@ -13,9 +13,9 @@ import { protect } from '@/middlewares/authMiddleware'
 const router = express.Router()
 
 router.get('/', protect, getAllUsers)
+router.post('/login', login)
 router.get('/:id', getUser)
 router.post('/', validate(UserZodSchema), createUser)
-router.post('/login', login)
 router.patch('/:id', updateUser)
 router.delete('/:id', deleteUser)
 

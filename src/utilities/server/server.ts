@@ -10,11 +10,13 @@ import connectRedis from 'connect-redis'
 const RedisStore = connectRedis(session)
 import { redisStatic } from '@/middlewares/redis'
 import logger from '@/utilities/logger'
-import { redisClient, aSet, aGet, rateLimiter } from '@/utilities'
+import { redisClient, rateLimiter } from '@/utilities'
 import config from '@/config/config'
+import { ErrorResponse } from '@/utilities/errorResponse'
 const createServer = async () => {
     // @todo use app from createServer instead
     const app: Express = express()
+    connectDB()
     // trust the nginx proxy headers
     app.enable('trust proxy')
     app.use(cors())
@@ -31,9 +33,9 @@ const createServer = async () => {
     })
     redisClient.on('connect', async () => {
         logger.info(`check redis status`)
-        const redisSetValue = await aSet('redis', 'redis-value')
+        const redisSetValue = await redisClient.set('redis', 'redis-value')
         logger.info({ redisSetValue })
-        const redisGetValue = await aGet('redis')
+        const redisGetValue = await redisClient.get('redis')
         logger.info({ redisSetValue, redisGetValue })
     })
     app.use(rateLimiter(10, 60))
@@ -46,31 +48,26 @@ const createServer = async () => {
             cookie: {
                 secure: false,
                 httpOnly: true,
-                maxAge: 60 * 60 * 60
+                maxAge: 1000 * 60 * 60 * 24
             }
         })
     )
     app.use(function (req, res, next) {
         if (!req.session) {
-            return next(new Error('oh no session lost!')) // @todo - handle error
+            return ErrorResponse(res, 'oh no session lost!', 401)
         }
         next() // otherwise continue
     })
 
     // Redis Setup Ends
-    if (
-        process.env.NODE_ENV === 'production' ||
-        process.env.NODE_ENV === 'development'
-    ) {
-        connectDB()
-    }
+
     // Headers
     app.use((req: Request, res: Response, next: NextFunction) => {
         res.setHeader('Access-Control-Allow-Origin', '*')
         next()
     })
 
-    app.get('/api/v1', async (req, res) => {
+    app.get('/api/v1', redisStatic('helth-check'), async (req, res) => {
         res.status(200).json({
             type: 'success',
             data: 'DATA FROM DB - DBZ'

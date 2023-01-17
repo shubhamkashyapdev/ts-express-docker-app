@@ -7,7 +7,7 @@ export function connectDB() {
         ENV === 'vite'
             ? config.MONGO_URI
             : `mongodb://${config.MONGO_USERNAME}:${config.MONGO_PASSWORD}@${config.MONGO_IP_ADDRESS}:${config.MONGO_PORT}?authSource=admin`
-
+    logger.info('connecting to mongodb')
     mongoose
         .connect(mongoSRV as string)
         .then(() => {

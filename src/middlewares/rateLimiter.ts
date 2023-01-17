@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { aExpire, aIncr, aTtl } from '@/utilities'
+import { redisClient } from '@/utilities'
 import logger from '@/utilities/logger'
 
 export const rateLimiter = (MAX_CALLS: number, WINDOW_SECONDS: number) => {
@@ -8,13 +8,13 @@ export const rateLimiter = (MAX_CALLS: number, WINDOW_SECONDS: number) => {
             req.headers['x-forwarded-for'] || req.connection.remoteAddress
 
         // increment request hit
-        const requests = (await aIncr(`ip:${ip}`)) as number
+        const requests = await redisClient.incr(`ip:${ip}`)
 
         if (requests <= 1) {
-            await aExpire(`ip:${ip}`, WINDOW_SECONDS)
+            await redisClient.expire(`ip:${ip}`, WINDOW_SECONDS)
         }
 
-        const ttl = await aTtl(`ip:${ip}`)
+        const ttl = await redisClient.ttl(`ip:${ip}`)
         if (requests > MAX_CALLS) {
             return res.status(503).json({
                 status: 'error',

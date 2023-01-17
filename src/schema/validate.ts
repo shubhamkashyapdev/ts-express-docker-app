@@ -1,4 +1,4 @@
-import { handleError } from '@/utilities/Error'
+import { ErrorResponse } from '@/utilities/errorResponse'
 import { NextFunction, Request, Response } from 'express'
 import { AnyZodObject } from 'zod'
 
@@ -13,7 +13,7 @@ const validate =
             })
             return next()
         } catch (err: unknown) {
-            handleError(res, err)
+            ErrorResponse(res, err)
         }
     }
 export default validate

@@ -8,13 +8,15 @@ import {
 } from '@/controller/PostController/PostController'
 import { protect } from '@/middlewares/authMiddleware'
 import { validate, PostZodSchema } from '@/schema'
+import { redisById, redisStatic } from '@/middlewares/redis'
+import { REDIS_PREFIX } from '@/utilities/constants'
 
 const router = express.Router()
 
-router.get('/', getAllPosts)
-router.get('/:id', getPost)
-router.post('/', validate(PostZodSchema), createPost)
-router.patch('/:id', updatePost)
-router.delete('/:id', deletePost)
+router.get('/', redisStatic(REDIS_PREFIX.POST), getAllPosts)
+router.get('/:id', redisById(REDIS_PREFIX.POST), getPost)
+router.post('/', protect, validate(PostZodSchema), createPost)
+router.patch('/:id', protect, updatePost)
+router.delete('/:id', protect, deletePost)
 
 export default router
