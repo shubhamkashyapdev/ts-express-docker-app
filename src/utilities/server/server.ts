@@ -75,7 +75,7 @@ const createServer = async () => {
     app.get('/api/v1', redisStatic('helth-check'), async (req, res) => {
         res.status(200).json({
             type: 'success',
-            data: 'DATA FROM DB - DB'
+            data: 'DATA FROM DB - DBZ'
         })
     })
 

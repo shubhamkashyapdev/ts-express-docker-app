@@ -15,8 +15,7 @@ const server = http.createServer(app)
 export const io = new Server(server, {
     cors: {
         origin: '*'
-    },
-    path: '/ws/socket.io'
+    }
 })
 
 io.on('connection', (socket: Socket) => {
