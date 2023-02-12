@@ -11,23 +11,30 @@ import session from 'express-session'
 import connectRedis from 'connect-redis'
 const RedisStore = connectRedis(session)
 import { redisStatic } from '@/middlewares/redis'
-import { redisClient, rateLimiter } from '@/utilities'
+import { rateLimiter } from '@/utilities'
+import { redisClient } from '@/config/redisUtils'
 
 // utilities
-import logger from '@/utilities/logger'
-import config from '@/config/config'
 import { ErrorResponse } from '@/utilities/errorResponse'
+import config from '@/config/config'
+import logger from '@/utilities/logger'
 
-const createServer = async () => {
+const createServer = () => {
     // @todo use app from createServer instead
     const app: Express = express()
-    connectDB()
     // trust the nginx proxy headers
     app.enable('trust proxy')
     app.use(cors())
     app.use(express.json())
     if (process.env.NODE_ENV === 'development') {
         app.use(morgan('dev'))
+    }
+
+    if (
+        process.env.NODE_ENV === 'production' ||
+        process.env.NODE_ENV === 'development'
+    ) {
+        connectDB()
     }
     /**
      * Redis Client Setup
@@ -43,7 +50,7 @@ const createServer = async () => {
         const redisGetValue = await redisClient.get('redis')
         logger.info({ redisSetValue, redisGetValue })
     })
-    app.use(rateLimiter(100, 60))
+    app.use(rateLimiter(10, 60))
     app.use(
         session({
             store: new RedisStore({ client: redisClient }),
@@ -65,7 +72,6 @@ const createServer = async () => {
     })
 
     // Redis Setup Ends
-
     // Headers
     app.use((req: Request, res: Response, next: NextFunction) => {
         res.setHeader('Access-Control-Allow-Origin', '*')
@@ -75,13 +81,12 @@ const createServer = async () => {
     app.get('/api/v1', redisStatic('helth-check'), async (req, res) => {
         res.status(200).json({
             type: 'success',
-            data: 'DATA FROM DB - DB'
+            data: 'DATA FROM DB - DBZ'
         })
     })
 
     app.use('/api/v1/post', PostRouter)
     app.use('/api/v1/user', UserRouter)
-
     // app.use('/api/v1/user', UserRouter)
     return app
 }

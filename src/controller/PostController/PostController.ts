@@ -3,6 +3,7 @@ import asyncHandler from 'express-async-handler'
 import { Request, Response } from 'express'
 import { redisClient } from '@/utilities'
 import { REDIS_PREFIX, REDIS_TTL } from '@/utilities/constants'
+import { io } from '@/index'
 export const getAllPosts = asyncHandler(async (req: Request, res: Response) => {
     const posts = await PostModel.find({})
     // set in redis
@@ -59,6 +60,7 @@ export const createPost = asyncHandler(async (req: Request, res: Response) => {
     // invalidate the redis cache
     await redisClient.expire(REDIS_PREFIX.POST, 1)
 
+    io.emit('new-post', 'New Post Added :)')
     res.status(200).json({
         type: 'success',
         data: post

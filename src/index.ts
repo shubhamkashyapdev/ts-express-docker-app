@@ -11,10 +11,12 @@ export const viteNodeApp = app
 
 const server = http.createServer(app)
 // server.listen(process.env.PORT || 5000)
+
 export const io = new Server(server, {
     cors: {
         origin: '*'
-    }
+    },
+    path: '/ws/socket.io'
 })
 
 io.on('connection', (socket: Socket) => {

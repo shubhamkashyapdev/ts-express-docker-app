@@ -6,7 +6,7 @@ import {
     updateUser,
     deleteUser,
     login
-} from '@/controller/UserController'
+} from '@/controller/UserController/UserController'
 import { validate, UserZodSchema } from '@/schema'
 import { protect } from '@/middlewares/authMiddleware'
 

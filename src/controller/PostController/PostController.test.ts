@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeAll, afterEach, afterAll } from 'vitest'
-import * as db from '@/config/db'
-import createServer from '@/utilities/server/testServer'
+import * as db from '@/config/test/db'
+import createServer from '@/utilities/test-server/testServer'
 const app = createServer()
 import request from 'supertest'
 
-describe('Testing Post Controller', () => {
+describe('Testing Post API', () => {
     beforeAll(async () => {
         await db.connect()
     })

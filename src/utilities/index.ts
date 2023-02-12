@@ -1,2 +1,2 @@
 export * from '../middlewares/rateLimiter'
-export * from './redisUtils'
+export * from '../config/redisUtils'
