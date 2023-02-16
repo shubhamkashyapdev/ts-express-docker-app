@@ -1,4 +1,4 @@
-import app from '@/utilities/server/server'
+import app from '@/server/server'
 import { describe, it, expect, beforeAll, afterAll, afterEach } from 'vitest'
 import request from 'supertest'
 import * as db from '@/config/test/db'

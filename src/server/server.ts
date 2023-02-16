@@ -11,21 +11,16 @@ import session from 'express-session'
 import connectRedis from 'connect-redis'
 const RedisStore = connectRedis(session)
 import { redisStatic } from '@/middlewares/redis'
-import { redisClient as rClient, rateLimiter } from '@/utilities'
-import { redisClient as rClientTest } from '@/config/test/redisUtils'
+import { redisClient, rateLimiter } from '@/utilities'
 // utilities
 import logger from '@/utilities/logger'
 import config from '@/config/config'
 import { ErrorResponse } from '@/utilities/errorResponse'
-import { Redis } from 'ioredis'
 
 // @todo use app from createServer instead
 const app: Express = express()
-let redisClient: Redis | any = rClient
 if (process.env.NODE_ENV !== 'testing') {
     connectDB()
-    redisClient = null
-    redisClient = rClientTest
 }
 // trust the nginx proxy headers
 app.enable('trust proxy')
@@ -37,7 +32,6 @@ if (process.env.NODE_ENV === 'development') {
 /**
  * Redis Client Setup
  */
-redisClient.on('error', (err) => logger.info('Redis Client Error', err))
 redisClient.on('error', (err) => {
     logger.info('redis connection error', err)
 })
