@@ -15,7 +15,7 @@ describe('Testing Post Controller', async () => {
     })
 
     it('Helth Check', async () => {
-        const res = await request(app).get('/api/v1')
+        const res = await request(app).get('/api/v1/helth-check')
         expect(res.statusCode).toBe(200)
     })
 })

@@ -70,8 +70,15 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
     next()
 })
+app.get('/api/v1', (req, res) => {
+    res.status(200).json({
+        type: 'success',
+        data: 'DATA FROM DB - DB'
+    })
+})
 
-app.get('/api/v1', redisStatic('helth-check'), async (req, res) => {
+app.get('/api/v1/helth-check', redisStatic('helth-check'), async (req, res) => {
+    redisClient.set('helth-check', 'OK')
     res.status(200).json({
         type: 'success',
         data: 'DATA FROM DB - DB'

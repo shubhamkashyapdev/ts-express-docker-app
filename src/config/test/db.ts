@@ -6,7 +6,6 @@ export const connect = async () => {
     const uri = await (await mongod).getUri()
     try {
         await mongoose.connect(uri)
-        console.log('mongodb connection established')
     } catch (err) {
         console.log({ err })
     }

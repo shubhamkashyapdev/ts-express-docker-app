@@ -5,11 +5,13 @@ export const redisStatic = (KEY: string) => {
     return async function (req: Request, res: Response, next: NextFunction) {
         // check if data exists in redis else set data in redis
         const data = await redisClient.get(KEY)
+        console.log(data)
         if (data) {
             return res.status(200).json({
                 success: true,
                 status: 'OK',
-                data: JSON.parse(data)
+                location: 'redis',
+                data: data
             })
         } else {
             next()
@@ -26,7 +28,7 @@ export const redisById =
             res.status(200).json({
                 success: true,
                 status: 'OK',
-                data: JSON.parse(data)
+                data: data
             })
         }
         next()

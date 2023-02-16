@@ -19,17 +19,20 @@ describe('Testing Post API', () => {
     })
     it('Should successfully return all post on / route', async () => {
         const res = await request(app).get('/api/v1/post')
-        expect(res.body.type).toBe('success')
+        expect(res.body.success).toBe(true)
     })
     it('Should create a new post and post collection should have 1 post in database', async () => {
         const post = await request(app).post('/api/v1/post').send({
             title: 'Test Post',
             body: 'Test Post Body'
         })
-        expect(post.body.type).toBe('success')
-        expect(post.body.data.title).toBe('Test Post')
-        const posts = await request(app).get('/api/v1/post')
-        expect(posts.body.data.length).toBe(1)
+        // Should failed if user iser not logged in
+        expect(post.statusCode).toBe(401)
+
+        // expect(post.body.success).toBe(true)
+        // expect(post.body.data.title).toBe('Test Post')
+        // const posts = await request(app).get('/api/v1/post')
+        // expect(posts.body.data.length).toBe(1)
     })
     it('Should update the post', async () => {
         // create the post

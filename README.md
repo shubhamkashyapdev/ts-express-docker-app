@@ -1,5 +1,9 @@
 # Video URL: [https://youtu.be/9zUHg7xjIqQ]
 
+# TODO List
+
+1. Authenticate with JWT token : `Bearer token`
+
 # Run a process with bind mount (volumes) - auto sync
 
 `docker run --name <process-name-any> -p 5000:5000 -v C:/WebDevelopment/MyProjects/Docker/docker_express_app:/app -v /app/node_modules -d <contianer-name>`

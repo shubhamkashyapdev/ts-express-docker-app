@@ -4,7 +4,7 @@ import Redis from 'ioredis'
 const ENV = process.env.NODE_ENV
 
 export const redisClient =
-    ENV === 'vite'
+    ENV === 'vite' || ENV === 'testing'
         ? new Redis()
         : new Redis(`redis://${config.REDIS_URL}:${config.REDIS_PORT}`)
 
