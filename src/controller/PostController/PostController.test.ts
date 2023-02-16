@@ -1,7 +1,6 @@
 import { describe, it, expect, beforeAll, afterEach, afterAll } from 'vitest'
 import * as db from '@/config/test/db'
-import createServer from '@/utilities/test-server/testServer'
-const app = createServer()
+import app from '@/utilities/server/server'
 import request from 'supertest'
 
 describe('Testing Post API', () => {

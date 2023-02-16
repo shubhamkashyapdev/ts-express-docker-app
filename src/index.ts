@@ -4,9 +4,7 @@ import http from 'http'
 import logger from '@/utilities/logger'
 
 import { Server, Socket } from 'socket.io'
-
-import createServer from '@/utilities/server/server'
-const app = await createServer()
+import app from '@/utilities/server/server'
 export const viteNodeApp = app
 
 const server = http.createServer(app)
