@@ -72,16 +72,13 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 })
 app.get('/api/v1', (req, res) => {
     res.status(200).json({
-        type: 'success',
-        data: 'DATA FROM DB - DB'
+        success: true
     })
 })
 
-app.get('/api/v1/helth-check', redisStatic('helth-check'), async (req, res) => {
-    redisClient.set('helth-check', 'OK')
+app.get('/api/v1/health-check', async (req, res) => {
     res.status(200).json({
-        type: 'success',
-        data: 'DATA FROM DB - DB'
+        success: true
     })
 })
 

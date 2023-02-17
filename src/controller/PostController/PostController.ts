@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler'
 import { Request, Response } from 'express'
 import { redisClient } from '@/utilities'
 import { REDIS_PREFIX, REDIS_TTL } from '@/utilities/constants'
-import { io } from '@/index'
+
 export const getAllPosts = asyncHandler(async (req: Request, res: Response) => {
     const posts = await PostModel.find({})
     // set in redis
@@ -14,7 +14,7 @@ export const getAllPosts = asyncHandler(async (req: Request, res: Response) => {
         REDIS_TTL.POST
     )
     res.status(200).json({
-        type: 'success',
+        success: true,
         data: posts
     })
 })
@@ -58,7 +58,7 @@ export const createPost = asyncHandler(async (req: Request, res: Response) => {
     // invalidate the redis cache
     await redisClient.expire(REDIS_PREFIX.POST, 1)
     res.status(200).json({
-        type: 'success',
+        success: true,
         data: post
     })
 })
@@ -79,7 +79,7 @@ export const updatePost = asyncHandler(async (req: Request, res: Response) => {
         REDIS_TTL.POST
     )
     res.status(200).json({
-        type: 'success',
+        success: true,
         data: newPost
     })
 })
@@ -91,7 +91,7 @@ export const deletePost = asyncHandler(async (req: Request, res: Response) => {
     await redisClient.expire(REDIS_PREFIX.POST, 1)
     await redisClient.expire(`${REDIS_PREFIX.POST}:${id}`, 1)
     res.status(200).json({
-        type: 'success',
+        success: true,
         message: `Post with id ${id} deleted successfully`
     })
 })

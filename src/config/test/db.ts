@@ -1,4 +1,5 @@
 /* eslint-disable no-loops/no-loops */
+import logger from '@/utilities/logger'
 import mongoose from 'mongoose'
 import { MongoMemoryServer } from 'mongodb-memory-server'
 const mongod = MongoMemoryServer.create()
@@ -7,7 +8,7 @@ export const connect = async () => {
     try {
         await mongoose.connect(uri)
     } catch (err) {
-        console.log({ err })
+        logger.info({ err })
     }
 }
 export const closeDatabase = async () => {

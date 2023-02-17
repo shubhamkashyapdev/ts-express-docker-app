@@ -11,3 +11,7 @@ export type User = {
     password: string
 }
 export type SessionUserType = Session & Partial<SessionData> & { user: User }
+
+export type JWTPayload = {
+    id: string
+}

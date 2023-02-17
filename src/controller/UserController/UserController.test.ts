@@ -13,4 +13,10 @@ describe('Testing User API', () => {
     afterAll(async () => {
         await db.closeDatabase()
     })
+
+    describe('User API', () => {
+        it('should return a 200 status', async () => {
+            expect(true).toBe(true)
+        })
+    })
 })

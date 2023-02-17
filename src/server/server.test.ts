@@ -14,8 +14,8 @@ describe('Testing Post Controller', async () => {
         await db.closeDatabase()
     })
 
-    it('Helth Check', async () => {
-        const res = await request(app).get('/api/v1/helth-check')
-        expect(res.statusCode).toBe(200)
+    it('API should be up and running', async () => {
+        const res = await request(app).get('/api/v1/health-check')
+        expect(res.body.success).toBe(true)
     })
 })
